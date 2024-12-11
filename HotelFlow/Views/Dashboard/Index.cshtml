@@ -1,0 +1,261 @@
+﻿
+@model IEnumerable<HotelFlow.Models.Dashboard>;
+@{
+    ViewData["Title"] = "Dashboard_Main";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HotelFlow</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="md:flex">
+        <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
+            <li>
+                <a href="#" id="profile-tab" class="inline-flex items-center px-4 py-3 text-white bg-[#1f1e30] rounded-lg active w-full dark:bg-[#1f1e30]" aria-current="page" data-target="#styled-profile">
+                    <svg class="w-4 h-4 me-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
+                    </svg>
+                    Profile
+                </a>
+            </li>
+            <li>
+                <a href="#" id="dashboard-tab" class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-[#1f1e30] dark:hover:bg-gray-700 dark:hover:text-white" data-target="#styled-dashboard">
+                    <svg class="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                        <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                    </svg>
+                    จัดการห้องพัก
+                </a>
+            </li>
+            <li>
+                <a href="#" id="settings-tab" class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-[#1f1e30] dark:hover:bg-gray-700 dark:hover:text-white" data-target="#styled-settings">
+                    <svg class="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M18 7.5h-.423l-.452-1.09.3-.3a1.5 1.5 0 0 0 0-2.121L16.01 2.575a1.5 1.5 0 0 0-2.121 0l-.3.3-1.089-.452V2A1.5 1.5 0 0 0 11 .5H9A1.5 1.5 0 0 0 7.5 2v.423l-1.09.452-.3-.3a1.5 1.5 0 0 0-2.121 0L2.576 3.99a1.5 1.5 0 0 0 0 2.121l.3.3L2.423 7.5H2A1.5 1.5 0 0 0 .5 9v2A1.5 1.5 0 0 0 2 12.5h.423l.452 1.09-.3.3a1.5 1.5 0 0 0 0 2.121l1.415 1.413a1.5 1.5 0 0 0 2.121 0l.3-.3 1.09.452V18A1.5 1.5 0 0 0 9 19.5h2a1.5 1.5 0 0 0 1.5-1.5v-.423l1.09-.452.3.3a1.5 1.5 0 0 0 2.121 0l1.415-1.414a1.5 1.5 0 0 0 0-2.121l-.3-.3.452-1.09H18a1.5 1.5 0 0 0 1.5-1.5V9A1.5 1.5 0 0 0 18 7.5Zm-8 6a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" />
+                    </svg>
+                    การจอง
+                </a>
+            </li>
+            <li>
+                <a href="#" id="contacts-tab" class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-[#1f1e30] dark:hover:bg-gray-700 dark:hover:text-white" data-target="#styled-contacts">
+                    <svg class="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M7.824 5.937a1 1 0 0 0 .726-.312 2.042 2.042 0 0 1 2.835-.065 1 1 0 0 0 1.388-1.441 3.994 3.994 0 0 0-5.674.13 1 1 0 0 0 .725 1.688Z" />
+                        <path d="M17 7A7 7 0 1 0 3 7a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1a1 1 0 0 0 1-1V7a5 5 0 1 1 10 0v7.083A2.92 2.92 0 0 1 12.083 17H12a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h1a1.993 1.993 0 0 0 1.722-1h.361a4.92 4.92 0 0 0 4.824-4H17a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3Z" />
+                    </svg>
+                    การแจ้งเตือน
+                </a>
+            </li>
+            <li>
+                <a href="#" id="customer-tab" class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-[#1f1e30] dark:hover:bg-gray-700 dark:hover:text-white" data-target="#styled-customer">
+                    <svg class="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M7.824 5.937a1 1 0 0 0 .726-.312 2.042 2.042 0 0 1 2.835-.065 1 1 0 0 0 1.388-1.441 3.994 3.994 0 0 0-5.674.13 1 1 0 0 0 .725 1.688Z" />
+                        <path d="M17 7A7 7 0 1 0 3 7a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1a1 1 0 0 0 1-1V7a5 5 0 1 1 10 0v7.083A2.92 2.92 0 0 1 12.083 17H12a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h1a1.993 1.993 0 0 0 1.722-1h.361a4.92 4.92 0 0 0 4.824-4H17a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3Z" />
+                    </svg>
+                    การจัดการลูกค้า
+                </a>
+            </li>
+        </ul>
+
+
+        <div id="default-styled-tab-content">
+            <div class="active p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-profile" role="tabpanel" aria-labelledby="profile-tab">
+                <p class="max-w-lg text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
+                    Welcome To Room Management System
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 17v2M12 5.5V10m-6 7v2m15-2v-4c0-1.6569-1.3431-3-3-3H6c-1.65685 0-3 1.3431-3 3v4h18Zm-2-7V8c0-1.65685-1.3431-3-3-3H8C6.34315 5 5 6.34315 5 8v2h14Z" />
+                            </svg>
+
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">ห้องว่าง</h3>
+                        </div>
+                        @* ใส่ค่า Parameter *@
+                        <h4 class="text-lg font-semibold ">@ViewBag.empty ห้อง</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M2.535 11A3.981 3.981 0 0 0 2 13v4a1 1 0 0 0 1 1h2v1a1 1 0 1 0 2 0v-1h10v1a1 1 0 1 0 2 0v-1h2a1 1 0 0 0 1-1v-4c0-.729-.195-1.412-.535-2H2.535ZM20 9V8a4 4 0 0 0-4-4h-3v5h7Zm-9-5H8a4 4 0 0 0-4 4v1h7V4Z" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">ห้องที่จองแล้ว</h3>
+                        </div>
+                        @* ใส่ค่า Parameter *@
+                        <h4 class="text-lg font-semibold ">@ViewBag.reserve ห้อง</p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">รายได้ทั้งหมด</h3>
+                        </div>
+                        <!-- แสดงค่า price จาก ViewBag -->
+                        <h4 class="text-lg font-semibold ">@ViewBag.TotalSum.ToString("C") บาท</h4>
+                    </div>
+                    <div id="datepicker-inline" inline-datepicker data-date ></div>
+                </div>
+                 <br>
+                <div class="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+                    <div class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white rounded-none bg-clip-border">
+                        <div class="flex items-center justify-between gap-8 mb-8">
+                            <div>
+                                <h5 class="block font-sarabun text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                                    ประวัติการเข้าพัก
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center p-6 px-0 overflow-x-auto">
+                        <table id="bookingTable" class="w-full mt-4 text-left table-auto min-w-max mx-auto border-separate border-spacing-0">
+                            <thead>
+                                <tr class="bg-gradient-to-r from-blue-500 to-blue-700 text-white">
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(0)">เลขที่จอง</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(1)">ชื่อผู้เข้าพัก</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(2)">ห้องที่พัก</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(3)">สถานะ</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(4)">วันที่เช็คอิน</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(5)">วันที่เช็คเอ้าท์</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(6)">ผู้ทำรายการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var Dashboard in Model)
+                                {
+                                    string statusClass = "";
+
+                                    if (Dashboard.BookingStatus == "Booked")
+                                    {
+                                        statusClass = "rounded-full bg-green-500 text-white";
+                                    }
+                                    else if (Dashboard.BookingStatus == "Full")
+                                    {
+                                        statusClass = "rounded-full bg-red-500 text-white";
+                                    }
+                                    else if (Dashboard.BookingStatus == "Reserve")
+                                    {
+                                        statusClass = "rounded-full bg-yellow-400 text-black";
+                                    }
+
+                                    <tr class="text-center hover:bg-gray-100 transition duration-200">
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.BookingId</td>
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.CustomerName</td>
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.RoomType</td>
+                                        <td class="p-4 border-b border-blue-200">
+                                            <span class="@statusClass py-1 px-3 text-xs font-semibold inline-block rounded-full">
+                                                @Dashboard.BookingStatus
+                                            </span>
+                                        </td>
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.CheckIn.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.CheckOut.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.Username</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex items-center justify-between p-4 border-t border-blue-gray-50">
+                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                            Page 1 of 10
+                        </p>
+                        <div class="flex gap-2">
+                            <button class="select-none rounded-lg border border-gray-900 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-gray-900 transition-all hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                    type="button">
+                                Previous
+                            </button>
+                            <button class="select-none rounded-lg border border-gray-900 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-gray-900 transition-all hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                    type="button">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                <p class="text-sm text-gray-500 dark:text-gray-400">This is the Dashboard tab's content.</p>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-settings" role="tabpanel" aria-labelledby="settings-tab">
+                <p class="text-sm text-gray-500 dark:text-gray-400">This is the Settings tab's content.</p>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-contacts" role="tabpanel" aria-labelledby="contacts-tab">
+                <p class="text-sm text-gray-500 dark:text-gray-400">This is the Contacts tab's content.</p>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-customer" role="tabpanel" aria-labelledby="customer-tab">
+                <p class="text-sm text-gray-500 dark:text-gray-400">This is the customer tab's content.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // JavaScript to handle tab switching
+        const tabs = document.querySelectorAll('[data-target]');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active', 'text-white', 'bg-blue-700', 'dark:bg-blue-600'));
+
+                // Add active class to the clicked tab (change background and text color)
+                this.classList.add('active', 'text-white', 'bg-blue-700', 'dark:bg-blue-600');
+
+                // Hide all tab content
+                const tabContents = document.querySelectorAll('[role="tabpanel"]');
+                tabContents.forEach(content => content.classList.add('hidden'));
+
+                // Show the target content
+                const target = document.querySelector(this.getAttribute('data-target'));
+                target.classList.remove('hidden');
+            });
+        });
+    </script>
+    <script>
+        function sortTable(columnIndex) {
+            var table = document.getElementById("bookingTable");
+            var rows = Array.from(table.rows).slice(1); // Get all rows except the header
+            var isAscending = table.querySelectorAll("th")[columnIndex].classList.contains("ascending");
+
+            rows.sort(function(a, b) {
+                var cellA = a.cells[columnIndex].textContent.trim();
+                var cellB = b.cells[columnIndex].textContent.trim();
+
+                if (columnIndex === 4 || columnIndex === 5) {
+                    // Convert date columns to Date objects for sorting
+                    cellA = new Date(cellA);
+                    cellB = new Date(cellB);
+                }
+
+                if (cellA < cellB) {
+                    return isAscending ? -1 : 1;
+                } else if (cellA > cellB) {
+                    return isAscending ? 1 : -1;
+                } else {
+                    return 0;
+                }
+            });
+
+            rows.forEach(function(row) {
+                table.tBodies[0].appendChild(row); // Reorder the rows
+            });
+
+            // Toggle sorting order (ascending/descending)
+            table.querySelectorAll("th").forEach(function(th) {
+                th.classList.remove("ascending", "descending");
+            });
+            table.querySelectorAll("th")[columnIndex].classList.toggle(isAscending ? "descending" : "ascending");
+        }
+    </script>
+
+</body>
+</html>
+
