@@ -62,7 +62,7 @@
             </li>
         </ul>
 
-
+        @* สำหรับหน้า Dashboard อันแรก *@
         <div id="default-styled-tab-content">
             <div class="active p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-profile" role="tabpanel" aria-labelledby="profile-tab">
                 <p class="max-w-lg text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
@@ -117,7 +117,7 @@
                         </div>
                     </div>
                     <div class="text-center p-6 px-0 overflow-x-auto">
-                        <table id="bookingTable" class="w-full mt-4 text-left table-auto min-w-max mx-auto border-separate border-spacing-0">
+                        <table id="bookingTable" class="min-w-full table-auto mx-auto border-separate border-spacing-0">
                             <thead>
                                 <tr class="bg-gradient-to-r from-blue-500 to-blue-700 text-white">
                                     <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(0)">เลขที่จอง</th>
@@ -146,7 +146,6 @@
                                     {
                                         statusClass = "rounded-full bg-yellow-400 text-black";
                                     }
-
                                     <tr class="text-center hover:bg-gray-100 transition duration-200">
                                         <td class="p-4 border-b border-blue-200">@Dashboard.BookingId</td>
                                         <td class="p-4 border-b border-blue-200">@Dashboard.CustomerName</td>
@@ -180,13 +179,79 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+
+          
             <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
                 <p class="text-sm text-gray-500 dark:text-gray-400">This is the Dashboard tab's content.</p>
+          
             </div>
+
+           @* ส่วนเพิ่มการจองห้องพัก *@
             <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-settings" role="tabpanel" aria-labelledby="settings-tab">
-                <p class="text-sm text-gray-500 dark:text-gray-400">This is the Settings tab's content.</p>
+                <div class="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+                    <div class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white rounded-none bg-clip-border">
+                        <div class="flex items-center justify-between gap-8 mb-8">
+                            <div>
+                                <h5 class="block font-sarabun text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                                    ประวัติการเข้าพัก
+                                </h5>
+                                <button class="flex items-center rounded-md bg-blue-700  from-slate-800 to-slate-700 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                                    <svg class="w-6 h-6 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5" />
+                                    </svg>
+                                    เพิ่มรายการ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center p-6 px-0 overflow-x-auto">
+                        <table id="bookingTable" class="min-w-full table-auto mx-auto border-separate border-spacing-0">
+                            <thead>
+                                <tr class="bg-gradient-to-r from-blue-500 to-blue-700 text-white">
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(0)">เลขที่จอง</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(1)">ชื่อผู้เข้าพัก</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(2)">ห้องที่พัก</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(3)">สถานะ</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(4)">วันที่เช็คอิน</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(5)">วันที่เช็คเอ้าท์</th>
+                                    <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(6)">ผู้ทำรายการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var Dashboard in Model)
+                                {
+                                    string statusClass = "";
+
+                                    if (Dashboard.BookingStatus == "Booked")
+                                    {
+                                        statusClass = "rounded-full bg-green-500 text-white";
+                                    }
+                                    else if (Dashboard.BookingStatus == "Full")
+                                    {
+                                        statusClass = "rounded-full bg-red-500 text-white";
+                                    }
+                                    else if (Dashboard.BookingStatus == "Reserve")
+                                    {
+                                        statusClass = "rounded-full bg-yellow-400 text-black";
+                                    }
+                                    <tr class="text-center hover:bg-gray-100 transition duration-200">
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.BookingId</td>
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.CustomerName</td>
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.RoomType</td>
+                                        <td class="p-4 border-b border-blue-200">
+                                            <span class="@statusClass py-1 px-3 text-xs font-semibold inline-block rounded-full">
+                                                @Dashboard.BookingStatus
+                                            </span>
+                                        </td>
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.CheckIn.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.CheckOut.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td class="p-4 border-b border-blue-200">@Dashboard.Username</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
             </div>
             <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-contacts" role="tabpanel" aria-labelledby="contacts-tab">
                 <p class="text-sm text-gray-500 dark:text-gray-400">This is the Contacts tab's content.</p>
