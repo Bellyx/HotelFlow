@@ -9,8 +9,10 @@ namespace HotelFlow.Data
         {
             // Here, the properties are not directly initialized,
             // but the context will handle their initialization.
+
         }
         public DbSet<Dashboard> Dashboard { get; set; }
+        public DbSet<Addroom> Addroom { get; set; }
         //public DbSet<Users> Users { get; set; } = null!;
         //public DbSet<Car_plate> Car_Plate { get; set; } = null!;
         //public DbSet<Product> Product { get; set; } = null!;
@@ -19,6 +21,8 @@ namespace HotelFlow.Data
         {
             modelBuilder.Entity<Dashboard>()
                 .HasNoKey(); // ถ้าคุณใช้ Keyless Entity
+            modelBuilder.Entity<Addroom>()
+               .HasNoKey(); // ถ้าคุณใช้ Keyless Entity
         }
     }
 }

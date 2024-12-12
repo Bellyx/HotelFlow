@@ -1,0 +1,98 @@
+﻿@model IEnumerable<HotelFlow.Models.Addroom>
+@{
+    ViewData["Title"] = "Trending_Index";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HotelFlow</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+<body>
+    @* ส่วนเพิ่มการจองห้องพัก *@
+    <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-settings" role="tabpanel" aria-labelledby="settings-tab">
+    <div class="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+        <div class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white rounded-none bg-clip-border">
+            <div class="flex items-center justify-between gap-8 mb-8">
+                <div>
+                    <h5 class="block font-sarabun text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                        การจองทั้งหมด
+                    </h5>
+                    <button action="@Url.Action("Addroom", "Dashboard")" data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="flex items-center rounded-md bg-blue-700  from-slate-800 to-slate-700 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                        <svg class="w-6 h-6 text-white-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5" />
+                        </svg>
+                        เพิ่มรายการ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center p-6 px-0 overflow-x-auto">
+            <table id="bookingTable" class="min-w-full table-auto mx-auto border-separate border-spacing-0">
+                <thead>
+                    <tr class="bg-gradient-to-r from-blue-500 to-blue-700 text-white">
+                        <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(0)">เลขที่จอง</th>
+                        <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(1)">ชื่อผู้เข้าพัก</th>
+                        <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(2)">ห้องที่พัก</th>
+                        <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(3)">สถานะ</th>
+                        <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(4)">วันที่เช็คอิน</th>
+                        <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(5)">วันที่เช็คเอ้าท์</th>
+                        <th class="p-4 border-y border-blue-300 text-center text-sm font-medium" onclick="sortTable(6)">ผู้ทำรายการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var addroom in Model)
+                    {
+                        string statusClass = "";
+
+                            if (addroom.BookingStatus == "Booked")
+                        {
+                            statusClass = "rounded-full bg-green-500 text-white";
+                        }
+                            else if (addroom.BookingStatus == "Full")
+                        {
+                            statusClass = "rounded-full bg-red-500 text-white";
+                        }
+                            else if (addroom.BookingStatus == "Reserve")
+                        {
+                            statusClass = "rounded-full bg-yellow-400 text-black";
+                        }
+                        <tr class="text-center hover:bg-gray-100 transition duration-200">
+                                <td class="p-4 border-b border-blue-200">@addroom.BookingId</td>
+                                <td class="p-4 border-b border-blue-200">@addroom.CustomerName</td>
+                                <td class="p-4 border-b border-blue-200">@addroom.RoomType</td>
+                            <td class="p-4 border-b border-blue-200">
+                                <span class="@statusClass py-1 px-3 text-xs font-semibold inline-block rounded-full">
+                                        @addroom.BookingStatus
+                                </span>
+                            </td>
+                                <td class="p-4 border-b border-blue-200">@addroom.CheckIn.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td class="p-4 border-b border-blue-200">@addroom.CheckOut.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td class="p-4 border-b border-blue-200">@addroom.Username</td>
+                            <td>
+                                <button class="flex p-2.5 bg-yellow-500 rounded-xl hover:rounded-3xl hover:bg-yellow-600 transition-all duration-300 text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="flex p-2.5 bg-green-500 rounded-xl hover:rounded-3xl hover:bg-green-600 transition-all duration-300 text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

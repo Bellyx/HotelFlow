@@ -1,15 +1,17 @@
-﻿using HotelFlow.Data;
-using HotelFlow.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
-using Microsoft.EntityFrameworkCore;
-
-
-namespace HotelFlow.Controllers
+﻿namespace HotelFlow.Controllers
 {
+    using HotelFlow.Data;
+    using HotelFlow.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.Data.SqlClient;
+    using Microsoft.EntityFrameworkCore;
+
     public class DashboardController : Controller
     {
+
         private readonly ApplicationDBContext _db;
+
         public DashboardController(ApplicationDBContext db)
         {
             _db = db;
@@ -44,15 +46,12 @@ namespace HotelFlow.Controllers
             var full = roomTable.Count(r => r.IsAvailable == 0);     // เต็ม
             var empty = roomTable.Count(r => r.IsAvailable == 1);    // ว่าง
             var reserve = roomTable.Count(r => r.IsAvailable == 2);  // จอง
-            //var status = roomTable.Select(r => r.BookingStatus ==); 
 
             // ส่งข้อมูลไปยัง View
             ViewBag.full = full;
             ViewBag.empty = empty;
             ViewBag.reserve = reserve;
             ViewBag.TotalSum = totalSum;
-
-
 
             // ส่งข้อมูลของ query ที่สองไปยัง View
             ViewBag.BookingId = roomTable;
@@ -66,21 +65,14 @@ namespace HotelFlow.Controllers
             return View(roomTable);
         }
 
-
-
         // GET: Dashboard/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Dashboard/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Dashboard/Create
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -95,6 +87,40 @@ namespace HotelFlow.Controllers
             }
         }
 
+        //public async Task<IActionResult> Create(Dashboard roomBooking)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // สร้างรหัสการจองใหม่
+        //        string newBookingId = await GenerateNewBookingId(); // คุณสามารถใช้วิธีการสร้างรหัสที่คุณต้องการ
+
+        //        // คำสั่ง SQL สำหรับการเพิ่มข้อมูล
+        //        string query = @"
+        //    INSERT INTO BOOKING 
+        //    (BOOKING_ID, ROOM_ID, USER_ID, CHECK_IN, CHECK_OUT, TOTAL_PRICE, BOOKING_STATUS, CREATE_AT, UPDATE_AT, SNAME)
+        //    VALUES (@BOOKING_ID, @ROOM_ID, @USER_ID, @CHECK_IN, @CHECK_OUT, @TOTAL_PRICE, 'Confirmed', GETDATE(), GETDATE(), @SNAME)";
+
+        //        // ใช้ ExecuteSqlInterpolatedAsync เพื่อส่งคำสั่ง SQL แบบ Interpolated
+        //        var parameters = new[]
+        //        {
+        //            new SqlParameter("@BOOKING_ID", newBookingId),
+        //            new SqlParameter("@ROOM_ID", roomBooking.RoomId),
+        //          //  new SqlParameter("@USER_ID", roomBooking.UserId),
+        //            new SqlParameter("@CHECK_IN", roomBooking.CheckIn),
+        //            new SqlParameter("@CHECK_OUT", roomBooking.CheckOut),
+        //            new SqlParameter("@TOTAL_PRICE", roomBooking.Price),
+        //            new SqlParameter("@SNAME", roomBooking.CustomerName)
+        //        };
+        //        // Execute SQL command with parameters
+        //        await _db.Database.ExecuteSqlRawAsync(query, parameters);
+
+        //        return RedirectToAction(nameof(Index));
+        //    }
+
+        //    return View(roomBooking);
+        //}
+
+
         // GET: Dashboard/Edit/5
         public ActionResult Edit(int id)
         {
@@ -102,6 +128,8 @@ namespace HotelFlow.Controllers
         }
 
         // POST: Dashboard/Edit/5
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -123,6 +151,7 @@ namespace HotelFlow.Controllers
         }
 
         // POST: Dashboard/Delete/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -136,5 +165,29 @@ namespace HotelFlow.Controllers
                 return View();
             }
         }
+
+        //private async Task<string> GenerateNewBookingId()
+        //{
+        //    string newBookingId = string.Empty;
+
+        //    var lastBooking = await _db.Dashboard
+        //    .FromSqlInterpolated($"SELECT TOP 1 BookingId FROM Dashboard ORDER BY BookingId DESC")
+        //    .FirstOrDefaultAsync();
+        //    if (lastBooking != null)
+        //    {
+        //        // แปลงรหัสที่ได้ (เช่น BKG003) และเพิ่มเลขให้กับรหัสใหม่
+        //        string lastBookingId = lastBooking.ToString();
+        //        int lastNumber = int.Parse(lastBookingId.Substring(3)); // ตัด 'BKG' ออกและแปลงเป็นตัวเลข
+        //        int newNumber = lastNumber + 1; // เพิ่ม 1 เพื่อให้ได้รหัสใหม่
+                
+        //        newBookingId = "BKG" + newNumber.ToString("D3"); // สร้างรหัสใหม่ เช่น BKG004
+        //    }
+        //    else
+        //    {
+        //        // ถ้ายังไม่มีข้อมูลในตาราง ให้เริ่มจาก BKG001
+        //        newBookingId = "BKG001";
+        //    }
+        //    return newBookingId;
+        //}
     }
 }
