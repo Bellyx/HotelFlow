@@ -1,4 +1,6 @@
 ﻿using HotelFlow.Data;
+using HotelFlow.Models;
+using HotelFlow.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,48 +8,95 @@ namespace HotelFlow.Controllers
 {
     public class AddroomController : Controller
     {
-        private readonly ApplicationDBContext _db;
-
-        public AddroomController(ApplicationDBContext db)
+        private readonly ApiService _apiService;
+        public AddroomController(ApiService apiService)
         {
-            _db = db;
+            _apiService = apiService;
         }
-        public IActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var roomTable = _db.Addroom
-                .FromSqlInterpolated($@"
-            SELECT 
-                bookings.booking_id     as BookingId,
-                bookings.room_id        as RoomId,
-                bookings.check_in       as CheckIn,
-                bookings.check_out      as CheckOut,
-                bookings.booking_status as BookingStatus,
-                bookings.sname          as CustomerName,
-                rooms.room_type         as RoomType,
-                rooms.is_available      as IsAvailable,
-                rooms.capacity          as Capacity,
-                rooms.price             as Price,
-                users.username			as username
-            FROM bookings
-            LEFT JOIN rooms ON rooms.room_id = bookings.room_id
-            LEFT JOIN users ON users.user_id = bookings.user_id
-            ORDER BY bookings.booking_id DESC
-        ")
-                .ToList();
+            // เรียกข้อมูลจาก API
+            var addrooms = await _apiService.GetAddroomsAsync();
 
-            // คำนวณผลรวมสุดท้ายของราคา
-            var full = roomTable.Count(r => r.IsAvailable == 0);     // เต็ม
-            var empty = roomTable.Count(r => r.IsAvailable == 1);    // ว่าง
-            var reserve = roomTable.Count(r => r.IsAvailable == 2);  // จอง
+            // ส่งข้อมูลไปแสดงใน View
+            return View(addrooms);
+        }
+        // เพิ่มห้องใหม่
+        public async Task<ActionResult> Create(Addroom addroom)
+        {
+            var createdAddroom = await _apiService.CreateAddroomAsync(addroom);
 
-            // ส่งข้อมูลไปยัง View ผ่าน ViewData (optional if you need)
-            ViewData["Full"] = full;
-            ViewData["Empty"] = empty;
-            ViewData["Reserve"] = reserve;
-
-            // ส่งข้อมูลของ query ไปยัง View (Model)
-            return View(roomTable);
+            return View(createdAddroom);
+            //return RedirectToAction(createdAddroom);
         }
 
+        // แก้ไขห้องที่มีอยู่
+        public async Task<ActionResult> Edit(int id, Addroom addroom)
+        {
+            var success = await _apiService.UpdateAddroomAsync(id, addroom);
+            if (success)
+                return RedirectToAction("Index");
+            return View();
+        }
+
+        // ลบห้อง
+        public async Task<ActionResult> Delete(int id)
+        {
+            var success = await _apiService.DeleteAddroomAsync(id);
+            if (success)
+                return RedirectToAction("Index");
+            return View();
+        }
+        // Action ที่รับข้อมูลจากฟอร์ม
+        //[HttpPost]
+        //public async Task<IActionResult> AddroomAsync(string BOOKING_ID, string roomDescription,int RoomId)
+        //{
+        //    string newBookingId = await GenerateNewBookingId(); // คุณสามารถใช้วิธีการสร้างรหัสที่คุณต้องการ
+
+        //    var newRoom = new Dashboard
+        //    {
+        //        BookingId = newBookingId,
+        //        RoomId = RoomId,
+        //    }; 
+
+        //    //            new SqlParameter("@BOOKING_ID", newBookingId),
+        //    //            new SqlParameter("@ROOM_ID", roomBooking.RoomId),
+        //    //          //  new SqlParameter("@USER_ID", roomBooking.UserId),
+        //    //            new SqlParameter("@CHECK_IN", roomBooking.CheckIn),
+        //    //            new SqlParameter("@CHECK_OUT", roomBooking.CheckOut),
+        //    //            new SqlParameter("@TOTAL_PRICE", roomBooking.Price),
+        //    //            new SqlParameter("@SNAME", roomBooking.CustomerName)
+
+
+
+        //    _db.Dashboard.Add(newRoom); // _context คือ DbContext ของคุณ
+        //    _db.SaveChanges(); // บันทึกข้อมูลลงฐานข้อมูล
+
+        //    return RedirectToAction("Index");
+        //}
+
+        //private async Task<string> GenerateNewBookingId()
+        //{
+        //    //string newBookingId = string.Empty;
+
+        //    //var lastBooking = await _db.Dashboard
+        //    //.FromSqlInterpolated($"SELECT TOP 1 BookingId FROM Dashboard ORDER BY BookingId DESC")
+        //    //.FirstOrDefaultAsync();
+        //    //if (lastBooking != null)
+        //    //{
+        //    //    // แปลงรหัสที่ได้ (เช่น BKG003) และเพิ่มเลขให้กับรหัสใหม่
+        //    //    string lastBookingId = lastBooking.ToString();
+        //    //    int lastNumber = int.Parse(lastBookingId.Substring(3)); // ตัด 'BKG' ออกและแปลงเป็นตัวเลข
+        //    //    int newNumber = lastNumber + 1; // เพิ่ม 1 เพื่อให้ได้รหัสใหม่
+
+        //    //    newBookingId = "BKG" + newNumber.ToString("D3"); // สร้างรหัสใหม่ เช่น BKG004
+        //    //}
+        //    //else
+        //    //{
+        //    //    // ถ้ายังไม่มีข้อมูลในตาราง ให้เริ่มจาก BKG001
+        //    //    newBookingId = "BKG001";
+        //    //}
+        //    //return newBookingId;
+        //}
     }
 }

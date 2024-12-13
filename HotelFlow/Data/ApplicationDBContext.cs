@@ -13,6 +13,7 @@ namespace HotelFlow.Data
         }
         public DbSet<Dashboard> Dashboard { get; set; }
         public DbSet<Addroom> Addroom { get; set; }
+        public DbSet<PromoCode> PromoCodes { get; set; }
         //public DbSet<Users> Users { get; set; } = null!;
         //public DbSet<Car_plate> Car_Plate { get; set; } = null!;
         //public DbSet<Product> Product { get; set; } = null!;
@@ -22,6 +23,8 @@ namespace HotelFlow.Data
             modelBuilder.Entity<Dashboard>()
                 .HasNoKey(); // ถ้าคุณใช้ Keyless Entity
             modelBuilder.Entity<Addroom>()
+               .HasNoKey(); // ถ้าคุณใช้ Keyless Entity
+            modelBuilder.Entity<PromoCode>()
                .HasNoKey(); // ถ้าคุณใช้ Keyless Entity
         }
     }

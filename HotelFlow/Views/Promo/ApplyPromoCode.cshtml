@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ฟอร์มกรอกข้อมูล</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <h2>กรอกโค้ดโปรโมชั่น</h2>
+
+    <form method="post">
+        <div>
+            <label for="code">โค้ดโปรโมชั่น:</label>
+            <input type="text" name="code" id="code" required />
+        </div>
+        <button type="submit">ใช้งานโค้ด</button>
+    </form>
+
+    @if (ViewBag.Message != null)
+    {
+        <div>
+            <h3>@ViewBag.Message</h3>
+            @if (ViewBag.Discount != null)
+            {
+                <p>ส่วนลดที่ได้: @ViewBag.Discount %</p>
+            }
+        </div>
+    }
+</body>
+</html>
